@@ -109,7 +109,7 @@ const LandingPage = () => {
                 Browse Cars
               </Button>
               <Button
-                variant="secondary"
+                variant="outline"
                 size="xl"
                 onClick={() => navigate('/register')}
               >
@@ -210,7 +210,7 @@ const LandingPage = () => {
             </motion.div>
             <Link to="/cars">
               <Button
-                variant="secondary"
+                variant="outline"
                 rightIcon={<ChevronRight className="w-4 h-4" />}
               >
                 See All
@@ -317,7 +317,7 @@ const LandingPage = () => {
                 </Button>
               </Link>
               <Link to="/cars">
-                <Button variant="secondary" size="xl">
+                <Button variant="outline" size="xl">
                   Browse Fleet
                 </Button>
               </Link>

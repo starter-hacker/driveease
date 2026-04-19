@@ -332,7 +332,7 @@ const CatalogPage = () => {
                 title="No cars found"
                 description="Try adjusting your filters or search terms."
                 action={
-                  <Button variant="secondary" onClick={clearAll}>
+                  <Button variant="outline" onClick={clearAll}>
                     Clear Filters
                   </Button>
                 }

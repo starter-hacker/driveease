@@ -1,14 +1,13 @@
+// FILE: frontend/src/components/layout/DashboardLayout.tsx
+
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { NotificationsPanel } from './NotificationsPanel';
-import { useUIStore } from '@/store/uiStore';
 
 export const DashboardLayout = () => {
-  const { notificationsPanelOpen, setNotificationsPanelOpen } = useUIStore();
-
   return (
-    <div className="flex h-screen bg-navy-900 overflow-hidden">
+    <div className="flex h-screen bg-ink-2 overflow-hidden">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Topbar />
@@ -16,10 +15,7 @@ export const DashboardLayout = () => {
           <Outlet />
         </main>
       </div>
-      <NotificationsPanel
-        isOpen={notificationsPanelOpen}
-        onClose={() => setNotificationsPanelOpen(false)}
-      />
+      <NotificationsPanel />
     </div>
   );
 };

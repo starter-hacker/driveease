@@ -44,7 +44,7 @@ export const StatCard = ({
         <span>
           {trend.value >= 0 ? '↑' : '↓'} {Math.abs(trend.value)}%
         </span>
-        <span className="text-faint">{trend.label}</span>
+        <span className="text-faint ml-1">{trend.label}</span>
       </div>
     )}
   </motion.div>

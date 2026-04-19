@@ -14,6 +14,7 @@ interface BadgeProps {
   className?: string;
   variant?: 'default' | 'booking' | 'car' | 'loyalty' | 'payment';
   status?: string;
+  onClick?: () => void;
 }
 
 export const Badge = ({
@@ -21,6 +22,7 @@ export const Badge = ({
   className,
   variant = 'default',
   status,
+  onClick,
 }: BadgeProps) => {
   let cls = 'pill';
   if (variant === 'booking' && status)
@@ -32,5 +34,12 @@ export const Badge = ({
   else if (variant === 'payment' && status) cls = getPaymentStatusPill(status);
   else cls = cn('pill', 'text-stone-5 bg-white/5');
 
-  return <span className={cn(cls, className)}>{children}</span>;
+  return (
+    <span
+      className={cn(cls, onClick && 'cursor-pointer', className)}
+      onClick={onClick}
+    >
+      {children}
+    </span>
+  );
 };

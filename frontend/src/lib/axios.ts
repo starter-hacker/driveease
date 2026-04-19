@@ -1,4 +1,5 @@
 // FILE: frontend/src/lib/axios.ts
+/// <reference types="vite/client" />
 
 import axios from 'axios';
 import toast from 'react-hot-toast';

@@ -156,3 +156,8 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
     t = setTimeout(() => fn(...args), delay);
   };
 }
+
+// Backwards compatibility aliases
+export const getLoyaltyTierBadge = getLoyaltyPill;
+export const getBookingStatusColor = getBookingStatusPill;
+export const getCarStatusColor = getCarStatusPill;

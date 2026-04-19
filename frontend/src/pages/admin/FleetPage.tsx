@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Pencil, Trash2, Car, Search } from 'lucide-react';
+import { Plus, Pencil, Trash2, Car as CarIcon, Search } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -20,7 +20,7 @@ import {
 } from '@/hooks/useCars';
 import { useDebounce } from '@/hooks/useDebounce';
 import { formatCurrency } from '@/lib/utils';
-import type { Car, CarCategory, Transmission, FuelType } from '@/types';
+import type { Car } from '@/types';
 import { cn } from '@/lib/utils';
 
 const carSchema = z.object({
@@ -58,7 +58,7 @@ const FleetPage = () => {
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [editCar, setEditCar] = useState<Car | null>(null);
-  const [deleteCar, setDeleteCar] = useState<Car | null>(null);
+  const [deleteCarItem, setDeleteCarItem] = useState<Car | null>(null);
 
   const { data, isLoading } = useCars({
     search,
@@ -94,6 +94,7 @@ const FleetPage = () => {
     setEditCar(null);
     setModalOpen(true);
   };
+
   const openEdit = (car: Car) => {
     setEditCar(car);
     Object.entries({
@@ -136,7 +137,7 @@ const FleetPage = () => {
       header: 'Car',
       cell: (car: Car) => (
         <div className="flex items-center gap-3">
-          <div className="w-14 h-10 rounded-lg overflow-hidden bg-navy-800 shrink-0">
+          <div className="w-14 h-10 overflow-hidden bg-ink-4 shrink-0">
             {car.images[0] ? (
               <img
                 src={car.images[0]}
@@ -144,16 +145,16 @@ const FleetPage = () => {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-white/10">
-                <Car className="w-5 h-5" />
+              <div className="w-full h-full flex items-center justify-center text-stone-5">
+                <CarIcon className="w-5 h-5" />
               </div>
             )}
           </div>
           <div>
-            <p className="text-sm font-medium text-white">
+            <p className="text-sm text-stone">
               {car.make} {car.model}
             </p>
-            <p className="text-xs text-white/40">
+            <p className="text-[11px] text-faint">
               {car.year} · {car.licensePlate}
             </p>
           </div>
@@ -178,7 +179,7 @@ const FleetPage = () => {
       key: 'pricePerDay',
       header: 'Price/Day',
       cell: (car: Car) => (
-        <span className="text-white font-medium">
+        <span className="text-stone font-medium">
           {formatCurrency(Number(car.pricePerDay))}
         </span>
       ),
@@ -188,8 +189,8 @@ const FleetPage = () => {
       key: 'rating',
       header: 'Rating',
       cell: (car: Car) => (
-        <span className="text-brand-amber text-sm">
-          ⭐ {Number(car.rating).toFixed(1)}
+        <span className="text-gold text-sm">
+          {Number(car.rating).toFixed(1)}
         </span>
       ),
     },
@@ -203,16 +204,16 @@ const FleetPage = () => {
               e.stopPropagation();
               openEdit(car);
             }}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-colors"
+            className="p-1.5 text-stone-5 hover:text-stone transition-colors"
           >
             <Pencil className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setDeleteCar(car);
+              setDeleteCarItem(car);
             }}
-            className="p-1.5 rounded-lg hover:bg-brand-rose/10 text-white/40 hover:text-brand-rose transition-colors"
+            className="p-1.5 text-stone-5 hover:text-[#EB5757] transition-colors"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
@@ -235,8 +236,7 @@ const FleetPage = () => {
         </Button>
       </div>
 
-      {/* Status tabs */}
-      <div className="flex gap-1 glass-card rounded-xl p-1 border border-white/5 w-fit">
+      <div className="flex gap-1 bg-ink-3 border border-hairline p-1 w-fit">
         {statusTabs.map((s) => (
           <button
             key={s}
@@ -245,10 +245,10 @@ const FleetPage = () => {
               setPage(1);
             }}
             className={cn(
-              'px-4 py-2 rounded-lg text-sm font-medium transition-all',
+              'px-4 py-2 text-xs font-medium tracking-wide uppercase transition-all',
               statusFilter === s
-                ? 'bg-brand-blue text-white'
-                : 'text-white/50 hover:text-white hover:bg-white/5',
+                ? 'bg-gold text-ink'
+                : 'text-stone-5 hover:text-stone',
             )}
           >
             {s}
@@ -256,8 +256,8 @@ const FleetPage = () => {
         ))}
       </div>
 
-      <div className="glass-card rounded-2xl">
-        <div className="p-4 border-b border-white/5">
+      <div className="bg-ink-3 border border-hairline">
+        <div className="p-4 border-b border-hairline">
           <div className="max-w-sm">
             <Input
               placeholder="Search make, model, plate..."
@@ -281,30 +281,27 @@ const FleetPage = () => {
           />
         </div>
         {meta && meta.totalPages > 1 && (
-          <div className="p-4 border-t border-white/5 flex justify-center">
-            <div className="flex gap-2">
-              {Array.from({ length: meta.totalPages }, (_, i) => i + 1).map(
-                (p) => (
-                  <button
-                    key={p}
-                    onClick={() => setPage(p)}
-                    className={cn(
-                      'w-8 h-8 rounded-lg text-sm font-medium transition-all',
-                      p === page
-                        ? 'bg-brand-blue text-white'
-                        : 'text-white/40 hover:text-white hover:bg-white/10',
-                    )}
-                  >
-                    {p}
-                  </button>
-                ),
-              )}
-            </div>
+          <div className="p-4 border-t border-hairline flex justify-center gap-1">
+            {Array.from({ length: meta.totalPages }, (_, i) => i + 1).map(
+              (p) => (
+                <button
+                  key={p}
+                  onClick={() => setPage(p)}
+                  className={cn(
+                    'w-8 h-8 text-xs font-medium transition-all',
+                    p === page
+                      ? 'bg-gold text-ink'
+                      : 'text-stone-5 hover:text-stone border border-hairline hover:border-subtle',
+                  )}
+                >
+                  {p}
+                </button>
+              ),
+            )}
           </div>
         )}
       </div>
 
-      {/* Car form modal */}
       <Modal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -340,10 +337,8 @@ const FleetPage = () => {
           </div>
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="text-xs font-medium text-white/50 uppercase mb-1.5 block">
-                Category
-              </label>
-              <select className="input-dark text-sm" {...register('category')}>
+              <label className="field-label">Category</label>
+              <select className="field-input text-sm" {...register('category')}>
                 {['ECONOMY', 'COMPACT', 'SUV', 'LUXURY', 'VAN', 'ELECTRIC'].map(
                   (c) => (
                     <option key={c} value={c}>
@@ -354,11 +349,9 @@ const FleetPage = () => {
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-white/50 uppercase mb-1.5 block">
-                Transmission
-              </label>
+              <label className="field-label">Transmission</label>
               <select
-                className="input-dark text-sm"
+                className="field-input text-sm"
                 {...register('transmission')}
               >
                 <option value="AUTO">AUTO</option>
@@ -366,10 +359,8 @@ const FleetPage = () => {
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-white/50 uppercase mb-1.5 block">
-                Fuel Type
-              </label>
-              <select className="input-dark text-sm" {...register('fuelType')}>
+              <label className="field-label">Fuel Type</label>
+              <select className="field-input text-sm" {...register('fuelType')}>
                 {['PETROL', 'DIESEL', 'ELECTRIC', 'HYBRID'].map((f) => (
                   <option key={f} value={f}>
                     {f}
@@ -418,11 +409,9 @@ const FleetPage = () => {
             {...register('features')}
           />
           <div>
-            <label className="text-xs font-medium text-white/50 uppercase mb-1.5 block">
-              Description
-            </label>
+            <label className="field-label">Description</label>
             <textarea
-              className="input-dark text-sm min-h-[80px] resize-none"
+              className="field-input text-sm min-h-[80px] resize-none"
               placeholder="Brief description of the car..."
               {...register('description')}
             />
@@ -430,7 +419,7 @@ const FleetPage = () => {
           <div className="flex gap-3 justify-end pt-2">
             <Button
               type="button"
-              variant="secondary"
+              variant="ghost"
               onClick={() => setModalOpen(false)}
             >
               Cancel
@@ -446,17 +435,17 @@ const FleetPage = () => {
       </Modal>
 
       <ConfirmDialog
-        isOpen={!!deleteCar}
-        onClose={() => setDeleteCar(null)}
+        isOpen={!!deleteCarItem}
+        onClose={() => setDeleteCarItem(null)}
         onConfirm={() => {
-          if (deleteCar) {
-            deleteMutation.mutate(deleteCar.id, {
-              onSuccess: () => setDeleteCar(null),
+          if (deleteCarItem) {
+            deleteMutation.mutate(deleteCarItem.id, {
+              onSuccess: () => setDeleteCarItem(null),
             });
           }
         }}
         title="Retire Car"
-        message={`Are you sure you want to retire ${deleteCar?.make} ${deleteCar?.model}? The car will be marked as retired and removed from the booking catalog.`}
+        message={`Are you sure you want to retire ${deleteCarItem?.make} ${deleteCarItem?.model}? The car will be marked as retired and removed from the booking catalog.`}
         confirmLabel="Retire Car"
         loading={deleteMutation.isPending}
       />

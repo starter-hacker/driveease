@@ -153,14 +153,11 @@ const BookingPage = () => {
             </div>
             <div className="flex gap-3">
               <Button
-                variant="secondary"
+                variant="outline"
                 className="flex-1"
                 onClick={() => navigate('/my-bookings')}
               >
                 My Bookings
-              </Button>
-              <Button className="flex-1" onClick={() => navigate('/cars')}>
-                Browse More
               </Button>
             </div>
           </motion.div>
@@ -306,7 +303,8 @@ const BookingPage = () => {
 
               <div className="flex gap-3">
                 <Button
-                  variant="secondary"
+                  type="button"
+                  variant="outline"
                   className="flex-1"
                   onClick={() => setStep(0)}
                 >
@@ -385,7 +383,7 @@ const BookingPage = () => {
                 <div className="flex gap-3">
                   <Button
                     type="button"
-                    variant="secondary"
+                    variant="outline"
                     className="flex-1"
                     onClick={() => setStep(1)}
                   >

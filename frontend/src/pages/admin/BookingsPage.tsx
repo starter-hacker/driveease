@@ -142,12 +142,15 @@ const BookingsPage = () => {
     },
   ];
 
+  // FILE: frontend/src/pages/admin/BookingsPage.tsx
+  // Find the statusActions object and replace with this:
+
   const statusActions: Record<
     string,
     {
       label: string;
       status: string;
-      variant: 'primary' | 'success' | 'danger';
+      variant: 'primary' | 'outline' | 'ghost' | 'danger';
     }[]
   > = {
     PENDING: [
@@ -155,10 +158,10 @@ const BookingsPage = () => {
       { label: 'Cancel', status: 'CANCELLED', variant: 'danger' },
     ],
     CONFIRMED: [
-      { label: 'Mark Active', status: 'ACTIVE', variant: 'success' },
+      { label: 'Mark Active', status: 'ACTIVE', variant: 'primary' },
       { label: 'Cancel', status: 'CANCELLED', variant: 'danger' },
     ],
-    ACTIVE: [{ label: 'Complete', status: 'COMPLETED', variant: 'success' }],
+    ACTIVE: [{ label: 'Complete', status: 'COMPLETED', variant: 'outline' }],
   };
 
   return (
