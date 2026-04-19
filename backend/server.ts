@@ -16,7 +16,7 @@ const startServer = async () => {
     app.listen(PORT, () => {
       console.log(`🚀 DriveEase API running on port ${PORT}`);
       console.log(`📍 Environment: ${process.env.NODE_ENV}`);
-      console.log(`🌐 Health check: http://localhost:${PORT}/health`);
+      console.log(`🌐 Health check: /health`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
@@ -26,11 +26,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-const express = require('express');
-const app = express();
-
-// Add this line
-app.set('trust proxy', 1);
-
-// Your rate limiter and routes follow...
