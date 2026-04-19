@@ -36,10 +36,13 @@ export const getBookings = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { page, limit, skip } = getPaginationParams(
-      req.query.page,
-      req.query.limit,
-    );
+    const pageParam =
+      typeof req.query.page === 'string' ? req.query.page : undefined;
+
+    const limitParam =
+      typeof req.query.limit === 'string' ? req.query.limit : undefined;
+
+    const { page, limit, skip } = getPaginationParams(pageParam, limitParam);
     const { status, paymentStatus, search } = req.query;
 
     const where: Prisma.BookingWhereInput = {};

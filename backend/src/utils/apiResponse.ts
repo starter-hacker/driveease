@@ -56,6 +56,6 @@ export const sendError = (
   res.status(statusCode).json({
     success: false,
     message,
-    ...(errors && { errors }),
+    ...(errors ? { errors } : {}),
   });
 };

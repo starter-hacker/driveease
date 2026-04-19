@@ -53,26 +53,36 @@ export const getRevenueChart = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const data = await prisma.$queryRaw;
-    {
-      month: string;
-      revenue: number;
-      bookings: number;
-    }
-    [] >
-      `
+    const monthlyRevenue = await prisma.$queryRaw<
+      { month: string; revenue: number; count: number }[]
+    >`
       SELECT
-        TO_CHAR(DATE_TRUNC('month', "createdAt"), 'Mon') as month,
-        COALESCE(SUM("totalAmount"), 0)::float as revenue,
-        COUNT(*)::int as bookings
+        TO_CHAR(DATE_TRUNC('month', "createdAt"), 'Mon YYYY') as month,
+        SUM("totalAmount")::float as revenue,
+        COUNT(*)::int as count
       FROM bookings
       WHERE "createdAt" >= NOW() - INTERVAL '12 months'
-        AND status IN ('COMPLETED', 'ACTIVE')
+        AND status != 'CANCELLED'
       GROUP BY DATE_TRUNC('month', "createdAt")
       ORDER BY DATE_TRUNC('month', "createdAt") ASC
     `;
 
-    sendSuccess(res, data);
+    const weeklyBookings = await prisma.$queryRaw<
+      { week: string; bookings: number }[]
+    >`
+      SELECT
+        TO_CHAR(DATE_TRUNC('week', "createdAt"), 'Mon DD') as week,
+        COUNT(*)::int as bookings
+      FROM bookings
+      WHERE "createdAt" >= NOW() - INTERVAL '12 weeks'
+      GROUP BY DATE_TRUNC('week', "createdAt")
+      ORDER BY DATE_TRUNC('week', "createdAt") ASC
+    `;
+
+    sendSuccess(res, {
+      monthlyRevenue,
+      weeklyBookings,
+    });
   } catch (err) {
     next(err);
   }
@@ -84,23 +94,21 @@ export const getBookingTrends = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const data = await prisma.$queryRaw;
-    {
-      week: string;
-      bookings: number;
-    }
-    [] >
-      `
+    const weeklyBookings = await prisma.$queryRaw<
+      { week: string; bookings: number }[]
+    >`
       SELECT
-        TO_CHAR(DATE_TRUNC('week', "createdAt"), 'DD Mon') as week,
+        TO_CHAR(DATE_TRUNC('week', "createdAt"), 'Mon DD') as week,
         COUNT(*)::int as bookings
       FROM bookings
-      WHERE "createdAt" >= NOW() - INTERVAL '8 weeks'
+      WHERE "createdAt" >= NOW() - INTERVAL '12 weeks'
       GROUP BY DATE_TRUNC('week', "createdAt")
       ORDER BY DATE_TRUNC('week', "createdAt") ASC
     `;
 
-    sendSuccess(res, data);
+    sendSuccess(res, {
+      weeklyBookings,
+    });
   } catch (err) {
     next(err);
   }
@@ -147,7 +155,9 @@ export const getRecentActivity = async (
             avatar: true,
           },
         },
-        car: { select: { make: true, model: true, year: true, images: true } },
+        car: {
+          select: { make: true, model: true, year: true, images: true },
+        },
       },
     });
 

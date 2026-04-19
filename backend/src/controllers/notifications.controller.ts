@@ -14,10 +14,13 @@ export const getNotifications = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { page, limit, skip } = getPaginationParams(
-      req.query.page,
-      req.query.limit,
-    );
+    const pageParam =
+      typeof req.query.page === 'string' ? req.query.page : undefined;
+
+    const limitParam =
+      typeof req.query.limit === 'string' ? req.query.limit : undefined;
+
+    const { page, limit, skip } = getPaginationParams(pageParam, limitParam);
 
     const where = { userId: req.user!.id };
 
