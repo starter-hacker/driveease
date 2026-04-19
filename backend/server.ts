@@ -26,3 +26,11 @@ const startServer = async () => {
 };
 
 startServer();
+
+const express = require('express');
+const app = express();
+
+// Add this line
+app.set('trust proxy', 1);
+
+// Your rate limiter and routes follow...
