@@ -4,7 +4,9 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  'https://driveease-production.up.railway.app/api/v1';
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,
