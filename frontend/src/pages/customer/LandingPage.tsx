@@ -62,60 +62,142 @@ const LandingPage = () => {
       <NavBar />
 
       {/* Hero */}
+      {/* Hero */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-blue/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-emerald/8 rounded-full blur-3xl" />
+        {/* Background car image */}
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1600&q=80"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+          {/* Dark overlay so text is readable */}
           <div
-            className="absolute inset-0 opacity-[0.03]"
+            className="absolute inset-0"
             style={{
-              backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-              backgroundSize: '40px 40px',
+              background:
+                'linear-gradient(105deg, rgba(10,10,9,0.96) 0%, rgba(10,10,9,0.85) 40%, rgba(10,10,9,0.5) 70%, rgba(10,10,9,0.3) 100%)',
             }}
           />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 relative z-10">
+        {/* Dot grid on top of image */}
+        <div className="absolute inset-0 dot-grid opacity-20" />
+
+        {/* Left vertical gold accent line */}
+        <div
+          className="absolute top-0 bottom-0 w-px"
+          style={{
+            left: '120px',
+            background:
+              'linear-gradient(to bottom, transparent 0%, rgba(201,169,110,0.35) 25%, rgba(201,169,110,0.35) 75%, transparent 100%)',
+          }}
+        />
+
+        {/* Right vertical subtle line desktop only */}
+        <div
+          className="absolute top-0 bottom-0 w-px hidden xl:block"
+          style={{
+            right: '120px',
+            background:
+              'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.08) 75%, transparent 100%)',
+          }}
+        />
+
+        {/* Horizontal gold line near bottom */}
+        <div
+          className="absolute left-0 right-0 h-px"
+          style={{
+            bottom: '88px',
+            background:
+              'linear-gradient(to right, transparent 0%, rgba(201,169,110,0.2) 15%, rgba(201,169,110,0.2) 85%, transparent 100%)',
+          }}
+        />
+
+        {/* Content */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 py-32 relative z-10 w-full">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
             className="max-w-3xl"
           >
-            <div className="inline-flex items-center gap-2 bg-brand-blue/10 border border-brand-blue/20 rounded-full px-4 py-1.5 mb-6">
-              <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
-              <span className="text-brand-blue text-sm font-medium">
-                Nigeria's Premium Car Rental
-              </span>
-            </div>
+            {/* Eyebrow */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="eyebrow mb-8"
+            >
+              Nigeria's premium car rental
+            </motion.div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-tight mb-6">
+            {/* Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="font-display text-[56px] sm:text-[72px] lg:text-[88px] font-light leading-none tracking-tight text-stone mb-6"
+            >
               Drive the car
               <br />
-              <span className="text-gradient">you deserve</span>
-            </h1>
+              you <em className="text-gold not-italic">deserve.</em>
+            </motion.h1>
 
-            <p className="text-xl text-white/60 mb-10 leading-relaxed max-w-xl">
-              From economy to luxury, choose from 500+ vehicles across Lagos,
-              Abuja, and Port Harcourt. Fair prices, zero surprises.
-            </p>
+            {/* Subheadline */}
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
+              className="text-base text-muted max-w-lg mb-12 leading-relaxed"
+            >
+              Handpicked vehicles across Lagos, Abuja, and Port Harcourt.
+              Transparent pricing. Zero surprises.
+            </motion.p>
 
-            <div className="flex flex-wrap gap-4">
-              <Button
-                size="xl"
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="flex flex-wrap gap-4 items-center"
+            >
+              <button
                 onClick={() => navigate('/cars')}
-                rightIcon={<ArrowRight className="w-5 h-5" />}
+                className="btn-primary btn-xl"
               >
-                Browse Cars
-              </Button>
-              <Button
-                variant="outline"
-                size="xl"
+                Browse fleet
+              </button>
+              <button
                 onClick={() => navigate('/register')}
+                className="btn-outline btn-xl"
               >
-                Create Account
-              </Button>
-            </div>
+                Create account
+              </button>
+            </motion.div>
+          </motion.div>
+
+          {/* Stats bottom right */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="absolute bottom-24 right-6 sm:right-12 flex gap-10 sm:gap-16"
+          >
+            {[
+              { num: '500+', label: 'Vehicles' },
+              { num: '3', label: 'Cities' },
+              { num: '10k', label: 'Clients' },
+            ].map((s) => (
+              <div key={s.label} className="text-right">
+                <p className="font-display text-4xl font-light text-stone leading-none">
+                  {s.num}
+                </p>
+                <p className="text-[10px] tracking-[0.14em] uppercase text-faint mt-2">
+                  {s.label}
+                </p>
+              </div>
+            ))}
           </motion.div>
         </div>
       </section>
