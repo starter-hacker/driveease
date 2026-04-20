@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, Search, ChevronDown, Home } from 'lucide-react';
+import { Bell, Search, ChevronDown, Home, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '@/store/authStore';
 import { useLogout } from '@/hooks/useAuth';
@@ -15,7 +15,7 @@ export const Topbar = () => {
   const { user } = useAuthStore();
   const logout = useLogout();
   const { data: unread = 0 } = useUnreadCount();
-  const { setNotificationsPanelOpen } = useUIStore();
+  const { setNotificationsPanelOpen, theme, toggleTheme } = useUIStore();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -39,6 +39,18 @@ export const Topbar = () => {
         >
           <Home className="w-4 h-4" />
         </Link>
+
+        <button
+          onClick={toggleTheme}
+          className="p-2 text-stone/40 hover:text-stone transition-colors"
+          title="Toggle theme"
+        >
+          {theme === 'dark' ? (
+            <Sun className="w-4 h-4" />
+          ) : (
+            <Moon className="w-4 h-4" />
+          )}
+        </button>
 
         <button
           onClick={() => setNotificationsPanelOpen(true)}

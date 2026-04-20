@@ -599,3 +599,128 @@
     border-radius: 0 !important;
   }
 }
+
+/* Add this at the very bottom of frontend/src/index.css */
+
+/* ─── Light Mode ────────────────────────────────────────── */
+
+html.light {
+  --ink: #fafaf8;
+  --ink-2: #f5f3ef;
+  --ink-3: #edebe6;
+  --ink-4: #e3e0d9;
+  --stone: #1a1918;
+  --muted: rgba(26, 25, 24, 0.55);
+  --faint: rgba(26, 25, 24, 0.3);
+  --hairline: rgba(0, 0, 0, 0.08);
+  --subtle: rgba(0, 0, 0, 0.14);
+}
+
+html.light body {
+  background: #f5f3ef;
+  color: #1a1918;
+}
+
+html.light .bg-ink-2 {
+  background: #f5f3ef !important;
+}
+html.light .bg-ink-3 {
+  background: #edebe6 !important;
+}
+html.light .bg-ink-4 {
+  background: #e3e0d9 !important;
+}
+
+html.light .text-stone {
+  color: #1a1918 !important;
+}
+html.light .text-muted {
+  color: rgba(26, 25, 24, 0.55) !important;
+}
+html.light .text-faint {
+  color: rgba(26, 25, 24, 0.3) !important;
+}
+
+html.light .border-hairline {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+html.light .border-subtle {
+  border-color: rgba(0, 0, 0, 0.14) !important;
+}
+
+html.light .field-input {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #1a1918;
+}
+html.light .field-input::placeholder {
+  color: rgba(26, 25, 24, 0.3);
+}
+html.light .field-input:focus {
+  border-color: rgba(201, 169, 110, 0.6);
+}
+
+html.light .nav-item {
+  color: rgba(26, 25, 24, 0.45);
+}
+html.light .nav-item:hover {
+  color: rgba(26, 25, 24, 0.8);
+  background: rgba(0, 0, 0, 0.04);
+}
+html.light .nav-item.active {
+  color: #1a1918;
+  background: rgba(201, 169, 110, 0.1);
+  border-right-color: #c9a96e;
+}
+
+html.light .data-table th {
+  color: rgba(26, 25, 24, 0.3);
+}
+html.light .data-table td {
+  color: rgba(26, 25, 24, 0.65);
+}
+html.light .data-table tr:hover td {
+  background: rgba(0, 0, 0, 0.02);
+  color: #1a1918;
+}
+
+html.light .stat-card-item {
+  background: #edebe6;
+}
+html.light .stat-label {
+  color: rgba(26, 25, 24, 0.35);
+}
+html.light .stat-value {
+  color: #1a1918;
+}
+
+html.light .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.09) 50%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+}
+
+html.light .eyebrow {
+  color: #a8863e;
+}
+html.light .eyebrow::before {
+  background: #a8863e;
+}
+html.light .text-gold {
+  color: #a8863e !important;
+}
+html.light .gold-line {
+  background: #a8863e;
+}
+
+html.light .panel {
+  background: #edebe6;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+html.light .modal-backdrop {
+  background: rgba(200, 198, 194, 0.7);
+}

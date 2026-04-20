@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Moon, Sun } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useLogout } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { getInitials } from '@/lib/utils';
+import { useUIStore } from '@/store/uiStore';
 
 const links = [
   { label: 'Fleet', to: '/cars' },
@@ -20,11 +21,24 @@ export const NavBar = () => {
   const { user, isAuthenticated } = useAuthStore();
   const logout = useLogout();
   const [open, setOpen] = useState(false);
+  const { theme, toggleTheme } = useUIStore();
   const [userOpen, setUserOpen] = useState(false);
 
   return (
     <nav className="bg-ink-2/95 border-b border-hairline sticky top-0 z-40 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-6 h-14 flex items-center gap-8">
+        <button
+          onClick={toggleTheme}
+          className="p-2 text-stone/40 hover:text-stone transition-colors"
+          title="Toggle theme"
+        >
+          {theme === 'dark' ? (
+            <Sun className="w-4 h-4" />
+          ) : (
+            <Moon className="w-4 h-4" />
+          )}
+        </button>
+
         <Link to="/" className="flex items-center gap-3 shrink-0">
           <div className="w-6 h-6 border border-gold flex items-center justify-center">
             <svg viewBox="0 0 12 12" fill="none" className="w-3 h-3">

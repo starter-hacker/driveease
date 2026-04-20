@@ -11,11 +11,18 @@ interface UIState {
   toggleSidebar: () => void;
   setNotificationsPanelOpen: (open: boolean) => void;
   setTheme: (theme: 'dark' | 'light') => void;
+  toggleTheme: () => void;
 }
+
+const applyTheme = (theme: 'dark' | 'light') => {
+  const root = document.documentElement;
+  root.classList.remove('dark', 'light');
+  root.classList.add(theme);
+};
 
 export const useUIStore = create<UIState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       sidebarOpen: true,
       notificationsPanelOpen: false,
       theme: 'dark',
@@ -25,7 +32,17 @@ export const useUIStore = create<UIState>()(
         set((state) => ({ sidebarOpen: !state.sidebarOpen })),
       setNotificationsPanelOpen: (open) =>
         set({ notificationsPanelOpen: open }),
-      setTheme: (theme) => set({ theme }),
+
+      setTheme: (theme) => {
+        applyTheme(theme);
+        set({ theme });
+      },
+
+      toggleTheme: () => {
+        const next = get().theme === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        set({ theme: next });
+      },
     }),
     {
       name: 'driveease-ui',
@@ -33,6 +50,9 @@ export const useUIStore = create<UIState>()(
         theme: state.theme,
         sidebarOpen: state.sidebarOpen,
       }),
+      onRehydrateStorage: () => (state) => {
+        if (state?.theme) applyTheme(state.theme);
+      },
     },
   ),
 );
