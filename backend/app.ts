@@ -93,7 +93,12 @@ app.use(
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: [
+      'http://localhost:5173',
+      'https://driveease-ashen.vercel.app',
+      'https://driveease-git-main-gbk-studios.vercel.app',
+      process.env.CORS_ORIGIN || '',
+    ].filter(Boolean),
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
